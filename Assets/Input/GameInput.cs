@@ -239,9 +239,27 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             ""id"": ""dcd4be4a-900d-4717-b2ab-f457d9cadf53"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""c6f31637-6153-4977-bffd-1d27695b2763"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Swing"",
                     ""type"": ""Button"",
-                    ""id"": ""0a252ed0-713b-4eb2-8c7a-41919fc92cad"",
+                    ""id"": ""2756860e-e38c-4759-bf8d-5586b2ac7689"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bunt"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce74cadf-7395-41f5-bb13-a230a20e42ec"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -250,13 +268,134 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""214d7f10-0c04-469f-b9f0-9e407209e1e3"",
-                    ""path"": """",
+                    ""name"": ""Keyboard"",
+                    ""id"": ""c8d896c3-4a39-4d35-b713-2331cbff82c5"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c652f3ba-2318-4801-b735-f7952ed5ae58"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b9c1bf03-3ad0-4421-b8fa-985e5dd569aa"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""00a96f84-83ea-42ad-802a-1f868e8c74aa"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""8e5e5ad9-d022-49ea-b2cc-1f9cb7133f1d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""634fd400-e33c-4f7b-87c6-c7b7d77355cd"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""918919f0-8400-425a-8f61-b8b4ecc3957f"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""53ae3480-b919-43f1-ac4b-a6a1b848c4ed"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a62431a2-d89f-4f91-9358-a006f102835a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5d101982-ee96-41eb-9146-e323e719f0a1"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a85beb2-6092-4b23-8ec6-ccf4cd8d2a2e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d2319e9-5ce5-4a6c-ab9b-ac3a61c11feb"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bunt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -300,7 +439,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_Pitcher_Move = m_Pitcher.FindAction("Move", throwIfNotFound: true);
         // BatterNRunner
         m_BatterNRunner = asset.FindActionMap("BatterNRunner", throwIfNotFound: true);
-        m_BatterNRunner_Newaction = m_BatterNRunner.FindAction("New action", throwIfNotFound: true);
+        m_BatterNRunner_Move = m_BatterNRunner.FindAction("Move", throwIfNotFound: true);
+        m_BatterNRunner_Swing = m_BatterNRunner.FindAction("Swing", throwIfNotFound: true);
+        m_BatterNRunner_Bunt = m_BatterNRunner.FindAction("Bunt", throwIfNotFound: true);
         // Defense
         m_Defense = asset.FindActionMap("Defense", throwIfNotFound: true);
         m_Defense_Newaction = m_Defense.FindAction("New action", throwIfNotFound: true);
@@ -412,12 +553,16 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     // BatterNRunner
     private readonly InputActionMap m_BatterNRunner;
     private IBatterNRunnerActions m_BatterNRunnerActionsCallbackInterface;
-    private readonly InputAction m_BatterNRunner_Newaction;
+    private readonly InputAction m_BatterNRunner_Move;
+    private readonly InputAction m_BatterNRunner_Swing;
+    private readonly InputAction m_BatterNRunner_Bunt;
     public struct BatterNRunnerActions
     {
         private @GameInput m_Wrapper;
         public BatterNRunnerActions(@GameInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_BatterNRunner_Newaction;
+        public InputAction @Move => m_Wrapper.m_BatterNRunner_Move;
+        public InputAction @Swing => m_Wrapper.m_BatterNRunner_Swing;
+        public InputAction @Bunt => m_Wrapper.m_BatterNRunner_Bunt;
         public InputActionMap Get() { return m_Wrapper.m_BatterNRunner; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -427,16 +572,28 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_BatterNRunnerActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnNewaction;
+                @Move.started -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnMove;
+                @Swing.started -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnSwing;
+                @Swing.performed -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnSwing;
+                @Swing.canceled -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnSwing;
+                @Bunt.started -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnBunt;
+                @Bunt.performed -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnBunt;
+                @Bunt.canceled -= m_Wrapper.m_BatterNRunnerActionsCallbackInterface.OnBunt;
             }
             m_Wrapper.m_BatterNRunnerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Swing.started += instance.OnSwing;
+                @Swing.performed += instance.OnSwing;
+                @Swing.canceled += instance.OnSwing;
+                @Bunt.started += instance.OnBunt;
+                @Bunt.performed += instance.OnBunt;
+                @Bunt.canceled += instance.OnBunt;
             }
         }
     }
@@ -482,7 +639,9 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     }
     public interface IBatterNRunnerActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
+        void OnSwing(InputAction.CallbackContext context);
+        void OnBunt(InputAction.CallbackContext context);
     }
     public interface IDefenseActions
     {
