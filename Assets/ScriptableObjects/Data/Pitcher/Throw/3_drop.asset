@@ -15,5 +15,5 @@ MonoBehaviour:
   Name: Fork Ball
   MaxSpeed: 136
   CurveOffset: 0
-  DropOffset: 7
+  DropOffset: 10
   Dir: 4

@@ -87,7 +87,6 @@ namespace Pitcher
 
         public void SelectBall(BallDir dir)
         {
-            Debug.Log("Selected: " + dir);
             m_PitchArrowUIDict[m_SelectedBallDir].GetComponent<Image>().color = Color.white;
             
             if (m_PitchArrowUIDict.ContainsKey(dir))

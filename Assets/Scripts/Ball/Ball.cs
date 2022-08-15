@@ -51,7 +51,6 @@ public class Ball : MonoBehaviour
         {
             if (m_RB.velocity.magnitude < 0.55f)
             {
-                Debug.Log("Infield: Ball Stopped");
                 m_ResultState = Result.ResultState.Ground;
                 Destroy(gameObject);
             }
@@ -91,12 +90,12 @@ public class Ball : MonoBehaviour
         //TODO - Const is placeholder. Find best fit constant
         m_Speed = selectedType.MaxSpeed * ((targetPt - releasePt).magnitude / m_BallPath.PathPoints.Count) * SPEED_CONSTANT;
 
-        //DEBUG: Visualization of line
+/*        //DEBUG: Visualization of line
         line = gameObject.AddComponent<LineRenderer>();
         line.positionCount = m_BallPath.PathPoints.Count;
         line.SetPositions(m_BallPath.PathPoints.ToArray());
         line.startWidth = 0.1f;
-        line.endWidth = 0.1f;
+        line.endWidth = 0.1f;*/
 
         //return position ball will arrived
         return m_BallPath.PathPoints.Last();
@@ -159,17 +158,14 @@ public class Ball : MonoBehaviour
         if (col.CompareTag("OutOfBound"))
         {
             //Foul
-            Debug.Log("Foul...");
             m_ResultState = Result.ResultState.Foul;
         }
         else if (col.CompareTag("HomeRunBound"))
         {
-            Debug.Log("HomeRun!!");
             m_ResultState = Result.ResultState.HR;
         }
         else
         {
-            Debug.Log("Unkown tag with name: " + col.name);
             m_ResultState = Result.ResultState.Ground;
             return;
         }

@@ -80,7 +80,6 @@ namespace Batter
                 }
                 if(m_Timer > m_SwingDone)
                 {
-                    Debug.Log("Trigger Disabled"); ;
                     m_Collision.enabled = false;
                     m_CheckCollision = false;
                 }
@@ -89,7 +88,6 @@ namespace Batter
 
         public void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Triggered in enter");
             if (other.CompareTag("Ball"))
             {
                 //hit!
@@ -108,14 +106,11 @@ namespace Batter
                 //z also, calculate the power of the ball exit (depends on when the bat hit the ball)
 
                 BallExitVelEvent.Raise(delta * 150);
-
-                Debug.Log("Ball hit");
             }
         }
 
         public void OnSwingFinished()
         {
-            Debug.Log("Animatino Finished");
             m_AnimationFinisehd = true;
         }
 
