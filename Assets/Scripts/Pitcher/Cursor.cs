@@ -16,6 +16,8 @@ namespace Pitcher
         public GameObject BallObj; //ball object use to instantiate
         public Transform  ReleasePoint; //The position to instantiate the ball
 
+        private Image m_CursorImage;
+
         private Vector3 m_OffsetInterval = Vector3.zero;
 
         private RectTransform m_OffsetCursorRectT;
@@ -24,17 +26,19 @@ namespace Pitcher
 
         private PitchTypeSO m_SelectedType;
 
-        public new void Awake()
+        private new void Awake()
         {
             base.Awake();
 
+            m_CursorImage = GetComponent<Image>();
             m_CanvasRectT = m_Cursor.GetComponent<Image>().canvas.GetComponent<RectTransform>();
             m_OffsetCursorRectT = OffsetCursorObject.GetComponent<RectTransform>();
 
             gameObject.SetActive(false);
+            m_CursorImage.enabled = false;
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             //InputReader.MoveActions += MoveCursor;
             AIReader.PitchCursorActions += MoveCursor;
@@ -50,6 +54,7 @@ namespace Pitcher
                 //change back the parent to cursor
                 m_OffsetCursorRectT.SetParent(m_Cursor);
             }
+            m_CursorImage.enabled = false;
         }
 
         void OnDisable()
@@ -83,6 +88,7 @@ namespace Pitcher
             }
 
             gameObject.SetActive(true);
+            m_CursorImage.enabled = false;
             enabled = true;
         }
 
@@ -110,6 +116,7 @@ namespace Pitcher
             OffsetCursorObject.SetActive(false);
 
             enabled = false;
+            m_CursorImage.enabled = true;
 
             //start the ball moving
             m_Ball.StartMove();
@@ -127,11 +134,6 @@ namespace Pitcher
         public void OnBallFinish()
         {
             IsStrikeEvent.Raise(InsideTheBound());
-        }
-
-        public void Log()
-        {
-            Debug.Log("Ball exit in cursor");
         }
     }
 }
