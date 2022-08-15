@@ -22,7 +22,8 @@ namespace Batter
         private CursorState m_CurrentState;
         private float m_Distance;
 
-        private bool m_CheckCollision;
+        [SerializeField] private bool m_CheckCollision = false;
+        [SerializeField] private bool m_AnimationFinisehd = true;
         private float m_SwingDelay = 0.01f;
         private float m_SwingDone = 0.5f;
         private float m_Timer = 0.0f;
@@ -112,14 +113,24 @@ namespace Batter
             }
         }
 
+        public void OnSwingFinished()
+        {
+            Debug.Log("Animatino Finished");
+            m_AnimationFinisehd = true;
+        }
+
         private void OnSwing()
         {
-            Debug.Log("Swing");
-            SwingEvent.Raise();
+            if (!m_CheckCollision && m_AnimationFinisehd)
+            {
+                SwingEvent.Raise();
 
-            m_CheckCollision = true;
-            m_Timer = 0.0f;
+                m_CheckCollision = true;
+                m_AnimationFinisehd = false;
+                m_Timer = 0.0f;
+            }
         }
+
 
         private void OnBunt(bool isPressed)
         {

@@ -8,6 +8,7 @@ public class BatterAnimation : MonoBehaviour
     public RectTransform PivotRectT;
     public Transform BatGripT; //TODO - maybe I can just use real x pos of pivot
 
+    public VoidEvent SwingFinishedEvent;
 
     private float m_PrevPivotX; //previous pivot position
     private float m_Distance;
@@ -40,5 +41,10 @@ public class BatterAnimation : MonoBehaviour
             BatterAnimator.SetTrigger("swing");
             isSwing = true;
         }
+    }
+
+    public void SwingFinished()
+    {
+        SwingFinishedEvent.Raise();
     }
 }
