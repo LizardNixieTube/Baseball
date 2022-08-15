@@ -9,6 +9,8 @@ public class BaseCursor : MonoBehaviour
     //how much cursor can go outside the boudry
     public float OutBoundLimit = 0f;
     public RectTransform BorderRectT;
+    
+    public float Speed = 500f;
 
     protected RectTransform m_Cursor;
     protected Vector2 m_Dir;
@@ -22,7 +24,6 @@ public class BaseCursor : MonoBehaviour
     private Vector2 m_yOutBoundry;
 
     //cursor speed - TODO it should be mutable
-    const float m_Speed = 500f;
 
     // This will get the rect transform of cursor and calculate the corner pts of the border and outside 
     public void Awake()
@@ -43,7 +44,7 @@ public class BaseCursor : MonoBehaviour
 
     public void Update()
     {
-        m_Cursor.localPosition += new Vector3(m_Dir.x, m_Dir.y) * m_Speed * Time.deltaTime;
+        m_Cursor.localPosition += new Vector3(m_Dir.x, m_Dir.y) * Speed * Time.deltaTime;
         Vector2 local = m_Cursor.localPosition;
         local.x = Mathf.Clamp(local.x, m_xOutBoundry.x, m_xOutBoundry.y);
         local.y = Mathf.Clamp(local.y, m_yOutBoundry.x, m_yOutBoundry.y);

@@ -5,24 +5,33 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public VoidEvent BallTravelEvent; //TODO - vector3 might be better since we have to send the info the batter?
-    public VoidEvent BallFinishEvent; 
+    public Vector3Event BallTravelEvent; //TODO - vector3 might be better since we have to send the info the batter?
+    public IntEvent BallFinishEvent;
+    public TransformEvent BallHitEvent;
+    public FloatEvent DistanceTrackerEvent;
 
     public float SPEED_CONSTANT = 100000f;
     public int PointCounts = 100;
 
+    private Rigidbody m_RB; 
     private Bezier m_BallPath;
 
-    private float m_Time     = 0f;
-    private int   m_Index    = 0;
-    private float m_Speed    = 0.0f; //TODO - change name to more appropriate (it's interval of ball travel)
-    private bool  m_Start    = false;
+    private Vector3 m_HitPos;
+
+    private float m_Time  = 0f;
+    private int   m_Index = 0;
+    private float m_Speed = 0.0f; //TODO - change name to more appropriate (it's interval of ball travel)
+    private bool  m_Start = false;
+    private bool  m_IsHit = false;
 
     private const int NUM_CTRL_PTS = 4;
+    private const int EXTRA_PTS = 4; //extra points for bezier curve to cross through the ui canvas
 
     //multiplier for curve and drop offset for breaking balls
-    private const float VERT_MULTIPLIER = 0.015f;
-    private const float HORI_MULTIPLIER = 0.015f;
+    private const float VERT_MULTIPLIER = 0.0015f;
+    private const float HORI_MULTIPLIER = 0.0015f;
+
+    private Result.ResultState m_ResultState = Result.ResultState.Ground;
 
     //DEBUG
     LineRenderer line;
@@ -30,26 +39,40 @@ public class Ball : MonoBehaviour
     public void Awake()
     {
         m_Start = false;
+        m_IsHit = false;
+        m_RB = GetComponent<Rigidbody>();
     }
 
     public void Update()
     {
         if (!m_Start) return;
 
+        if (m_IsHit)
+        {
+            if (m_RB.velocity.magnitude < 0.55f)
+            {
+                Debug.Log("Infield: Ball Stopped");
+                m_ResultState = Result.ResultState.Ground;
+                Destroy(gameObject);
+            }
+
+            DistanceTrackerEvent.Raise((transform.position - m_HitPos).magnitude);
+            return;
+        }
+        
         m_Time += Time.deltaTime;
 
         if (m_Index < m_BallPath.PathPoints.Count && m_Time > m_Speed)
         {
             transform.position = m_BallPath.PathPoints[m_Index++];
-            BallTravelEvent.Raise();
+            BallTravelEvent.Raise(transform.position);
             m_Time = 0.0f; //reset the timer
         }
         else if(m_Index >= m_BallPath.PathPoints.Count)
         {
             //Raise the Finish event to the channel
-            //Destroy(gameObject);
-            BallFinishEvent.Raise();
-            m_Start = false;
+            m_ResultState = Result.ResultState.StrikeOut;
+            Destroy(gameObject);
         }
     }
     public void StartMove()
@@ -67,7 +90,6 @@ public class Ball : MonoBehaviour
         //total distance / number of bezier path pts / speed of ball in m/s
         //TODO - Const is placeholder. Find best fit constant
         m_Speed = selectedType.MaxSpeed * ((targetPt - releasePt).magnitude / m_BallPath.PathPoints.Count) * SPEED_CONSTANT;
-        Debug.Log(m_Speed);
 
         //DEBUG: Visualization of line
         line = gameObject.AddComponent<LineRenderer>();
@@ -78,6 +100,24 @@ public class Ball : MonoBehaviour
 
         //return position ball will arrived
         return m_BallPath.PathPoints.Last();
+    }
+
+    public void OnHit(Vector3 vel)
+    {
+        m_IsHit = true;
+        if (m_RB == null )
+        {
+            Debug.Log("m_RB is undefined for some reason");
+        }
+        else
+        {
+
+            m_HitPos = transform.position;
+
+            m_RB.useGravity = true;
+            m_RB.velocity = vel;
+            BallHitEvent.Raise(transform);
+        }
     }
 
     public static Bezier CreatePath(Pitcher.PitchTypeSO type, Vector3 releasePt, Vector3 targetPt)
@@ -112,6 +152,33 @@ public class Ball : MonoBehaviour
 
         //Create bezier path
         return new Bezier(ctrlPts);
+    }
+
+    public void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("OutOfBound"))
+        {
+            //Foul
+            Debug.Log("Foul...");
+            m_ResultState = Result.ResultState.Foul;
+        }
+        else if (col.CompareTag("HomeRunBound"))
+        {
+            Debug.Log("HomeRun!!");
+            m_ResultState = Result.ResultState.HR;
+        }
+        else
+        {
+            Debug.Log("Unkown tag with name: " + col.name);
+            m_ResultState = Result.ResultState.Ground;
+            return;
+        }
+        Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
+        BallFinishEvent.Raise((int)m_ResultState);
     }
 }
 

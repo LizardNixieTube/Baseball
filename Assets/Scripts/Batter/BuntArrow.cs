@@ -9,8 +9,22 @@ public class BuntArrow : MonoBehaviour
     public void Update()
     {
         transform.position = new Vector3(transform.position.x, FollowT.position.y, transform.position.z);
-        
+
         //TODO - duplicate (except the axis) from BatCursor
+        /*
+         * top view
+         * 
+         *   bottom of arrow 
+         *         /|
+         *        / |
+         *       /  |
+         *      /   | dz
+         *     /    |
+         *    /_____|
+         *  É∆   dx
+         *  (É∆ point is where follow/cursor locate)
+         *  
+         */
         float dz = transform.position.z - FollowT.position.z;
         float dx = transform.position.x - FollowT.position.x;
         float angle = Mathf.Rad2Deg * Mathf.Atan(dx / dz);

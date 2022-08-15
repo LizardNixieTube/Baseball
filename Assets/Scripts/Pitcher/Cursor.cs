@@ -7,6 +7,8 @@ namespace Pitcher
     public class Cursor : BaseCursor
     {
         public PitcherInputReader InputReader;
+        public PitcherAI AIReader;
+
         public GameObject OffsetCursorObject;
 
         public BoolEvent IsStrikeEvent;
@@ -34,7 +36,8 @@ namespace Pitcher
 
         void OnEnable()
         {
-            InputReader.MoveActions += MoveCursor;
+            //InputReader.MoveActions += MoveCursor;
+            AIReader.PitchCursorActions += MoveCursor;
             m_Cursor.localPosition = m_CenterPosition;
 
             //if there's drop or curve, enable the offset cursor
@@ -124,6 +127,11 @@ namespace Pitcher
         public void OnBallFinish()
         {
             IsStrikeEvent.Raise(InsideTheBound());
+        }
+
+        public void Log()
+        {
+            Debug.Log("Ball exit in cursor");
         }
     }
 }

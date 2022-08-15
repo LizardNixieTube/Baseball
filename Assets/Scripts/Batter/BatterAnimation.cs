@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class BatterAnimation : MonoBehaviour
 {
+    public Animator BatterAnimator;
     public RectTransform PivotRectT;
     public Transform BatGripT; //TODO - maybe I can just use real x pos of pivot
-    
+
+
     private float m_PrevPivotX; //previous pivot position
     private float m_Distance;
-    
+
+    private bool isSwing = false;
+
     public void Awake()
     {
         m_Distance = BatGripT.position.x - gameObject.transform.position.x;
@@ -23,6 +27,18 @@ public class BatterAnimation : MonoBehaviour
         {
             transform.position += new Vector3(realPivotX - m_PrevPivotX, 0, 0);
             m_PrevPivotX = realPivotX;
+        }
+    }
+    public void EnableSwing()
+    {
+        isSwing = false;
+    }
+    public void Swing()
+    {
+        if (!isSwing)
+        {
+            BatterAnimator.SetTrigger("swing");
+            isSwing = true;
         }
     }
 }

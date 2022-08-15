@@ -11,6 +11,9 @@ namespace Batter
         
         public BatterInputReader BatterInput;
 
+        public VoidEvent SwingEvent;
+        public Vector3Event BallExitVelEvent;
+
         public GameObject MeatCursor;
         public GameObject BuntArrow;
 
@@ -19,10 +22,20 @@ namespace Batter
         private CursorState m_CurrentState;
         private float m_Distance;
 
+        private bool m_CheckCollision;
+        private float m_SwingDelay = 0.01f;
+        private float m_SwingDone = 0.5f;
+        private float m_Timer = 0.0f;
+
+        private CapsuleCollider m_Collision;
+
+        private Vector3 BAT_CONTACT = Vector3.one;
+        
         public new void Awake()
         {
             base.Awake();
-
+            m_Collision = GetComponent<CapsuleCollider>();
+            m_Collision.enabled = false;
             m_Distance = m_Cursor.localPosition.x - PivotRectT.localPosition.x; 
         }
 
@@ -31,6 +44,8 @@ namespace Batter
             BatterInput.SwingActions += OnSwing;
             BatterInput.BuntActions  += OnBunt;
             BatterInput.MoveActions  += MoveCursor;
+
+            //m_Collision.enabled = false;
         }
 
         public void OnDisable()
@@ -53,12 +68,57 @@ namespace Batter
             m_Cursor.localRotation = new Quaternion
             {
                 eulerAngles = new Vector3(0, 0, angle)
-            };    
+            };
+
+            if (m_CheckCollision)
+            {
+                m_Timer += Time.deltaTime;
+                if (m_Timer > m_SwingDelay)
+                {
+                    m_Collision.enabled = true;
+                }
+                if(m_Timer > m_SwingDone)
+                {
+                    Debug.Log("Trigger Disabled"); ;
+                    m_Collision.enabled = false;
+                    m_CheckCollision = false;
+                }
+            }            
+        }
+
+        public void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Triggered in enter");
+            if (other.CompareTag("Ball"))
+            {
+                //hit!
+                //calculate the exiting velocity
+                Vector3 ballPos = other.transform.position;
+
+
+                //Where the ball is heading based on the two
+                //x - direction of ball is heading
+                //y - z launch angle of the vectoy
+                Vector3 delta = ballPos - transform.position;
+
+                //using inverse equation to penalize the contact between the cursor is offcenter
+                //delta.x = delta.x == 0 ? (delta.x > 0 ? (1 / delta.x) : (1 / -delta.x))*BAT_CONTACT.x : BAT_CONTACT.x;
+
+                //z also, calculate the power of the ball exit (depends on when the bat hit the ball)
+
+                BallExitVelEvent.Raise(delta * 150);
+
+                Debug.Log("Ball hit");
+            }
         }
 
         private void OnSwing()
         {
+            Debug.Log("Swing");
+            SwingEvent.Raise();
 
+            m_CheckCollision = true;
+            m_Timer = 0.0f;
         }
 
         private void OnBunt(bool isPressed)

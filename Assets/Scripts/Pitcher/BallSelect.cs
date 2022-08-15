@@ -7,7 +7,11 @@ namespace Pitcher
 {
     public class BallSelect : MonoBehaviour
     {
+        private bool m_IsAI = true;
+
         public PitcherInputReader InputReader;
+        public PitcherAI AIReader;
+
         public Text DisplayText;
 
         public PitcherDataSO PitcherData;
@@ -21,18 +25,30 @@ namespace Pitcher
 
         public void OnEnable()
         {
-            InputReader.SelectActions  += Select;
-            InputReader.ConfirmActions += Confirm;
-            DisplayText.enabled = true;
-            
+            m_IsAI = true;
+            if (m_IsAI)
+            {
+                AIReader.PitchSelectActions += Select;
+                AIReader.PitchConfirmActions += Confirm;
+            }
+            else
+            {
+                InputReader.SelectActions += Select;
+                InputReader.ConfirmActions += Confirm;
+                DisplayText.enabled = true;
+            } 
         }
 
         public void OnDisable()
         {
             InputReader.SelectActions  -= Select;
             InputReader.ConfirmActions -= Confirm;
+            AIReader.PitchSelectActions -= Select;
+            AIReader.PitchConfirmActions -= Confirm;
             DisplayText.enabled = false;
         }
+
+        public void Override(bool isAI) { m_IsAI = isAI; }
 
         public void Start()
         {
@@ -71,6 +87,7 @@ namespace Pitcher
 
         public void SelectBall(BallDir dir)
         {
+            Debug.Log("Selected: " + dir);
             m_PitchArrowUIDict[m_SelectedBallDir].GetComponent<Image>().color = Color.white;
             
             if (m_PitchArrowUIDict.ContainsKey(dir))
