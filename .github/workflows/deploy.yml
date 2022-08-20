@@ -54,7 +54,7 @@ jobs:
       #upload build output to access the files
       - uses: actions/upload-pages-artifact@v1
         with:
-          path: build/WebGL
+          path: build
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
