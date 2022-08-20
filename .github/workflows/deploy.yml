@@ -31,9 +31,23 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: WebGL
-          
-      - uses: actions/upload-artifact@v2
+          targetPlatform: WebGL          
+  deploy:
+    #require build to be run in order to run deploy
+    needs: build
+
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment orginate from an appropriate source
+
+    environment:
+     name: github-pages
+     url: ${{ steps.deployments.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      #upload build output to access the files
+      - uses: actions/upload-pages-artifact@v2
         with:
-          name: Build
+          name: github-pages
           path: build
