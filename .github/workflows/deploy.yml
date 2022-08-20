@@ -37,6 +37,10 @@ jobs:
         with:
           targetPlatform: WebGL    
           buildsPath: build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
   deploy:
     #require build to be run in order to run deploy
     needs: build
