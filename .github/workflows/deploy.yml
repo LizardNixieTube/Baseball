@@ -41,17 +41,7 @@ jobs:
         with:
           name: Build
           path: build
-  deploy:
-    #require build to be run in order to run deploy
-    needs: build
-
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment orginate from an appropriate source
-
-    runs-on: ubuntu-latest
-    steps:
-      #upload build output to access the files
+                #upload build output to access the files
       - uses: actions/upload-pages-artifact@v1
         with:
           path: build
