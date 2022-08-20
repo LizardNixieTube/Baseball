@@ -47,7 +47,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #upload build output to access the files
-      - uses: actions/upload-pages-artifact@v2
+      - name: Upload Build Unity HTML Page as a GitHub Pages 
+        uses: actions/upload-pages-artifact@v1
         with:
           name: github-pages
           path: build
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
