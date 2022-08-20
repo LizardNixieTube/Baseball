@@ -26,11 +26,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/cache@v2
         with:
-          key: Library-MyProjectName-TargetPlatform
-          restore-keys: |
-            Library-MyProjectName-
-            Library-
-      
+          path: Library
+          key: Library-WebGL
+          restore-keys: Library-
       - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
