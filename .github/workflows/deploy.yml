@@ -24,6 +24,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - uses: actions/cache@v2
+        with:
+          key: Library-MyProjectName-TargetPlatform
+          restore-keys: |
+            Library-MyProjectName-
+            Library-
       
       - uses: game-ci/unity-builder@v2
         env:
@@ -47,8 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #upload build output to access the files
-      - name: Upload Build Unity HTML Page as a GitHub Pages 
-        uses: actions/upload-pages-artifact@v1
+      - uses: actions/upload-pages-artifact@v1
         with:
           name: github-pages
           path: build
