@@ -41,7 +41,8 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: WebGL    
+          targetPlatform: WebGL
+          
       - uses: actions/upload-artifact@v2
         with:
           name: build-WebGL
@@ -61,14 +62,14 @@ jobs:
     steps:
       - name: Checkout Code 
         uses: actions/checkout@v2
+        
       - uses: actions/download-artifact@v2
         with:
           name: build-WebGL
           path: build
         
-      - uses: actions/upload-pages-artifact@v1
+      - name: Deploy to GitHub Page
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: build
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+          branch: gh-pages
+          folder: build
