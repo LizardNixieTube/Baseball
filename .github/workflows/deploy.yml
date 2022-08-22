@@ -15,29 +15,26 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  buildWebGL:
+    name: Build For WebGL
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment orginate from an appropriate source
-      deployments: write
-      
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    strategy:
+      fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+      - name: Restore Library Cache
+        uses: actions/cache@v2
         with:
           path: Library
-          key: Library-WebGL
-          restore-keys: Library-
+          key: Library-build-WebGL
+          restore-keys: 
+            Library-
+            Library-build-
+            
       - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -45,10 +42,28 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL    
-          buildsPath: build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build-WebGL
+          path: build/WebGL
+        
+  deployPages:
+    needs: buildWebGL
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment orginate from an appropriate source
+      deployments: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}     
+    steps:
+      - name: Checkout Code 
+        uses: actions/checkout@v2
       - uses: actions/upload-pages-artifact@v1
         with:
-          path: build
+          path: build/WebGL/WebGL
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
