@@ -23,6 +23,11 @@ jobs:
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment orginate from an appropriate source
+      deployments: write
+      
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
