@@ -61,12 +61,10 @@ jobs:
     steps:
       - name: Checkout Code 
         uses: actions/checkout@v2
-      - name: Display root files
-        run: ls -R
-        working-directory: build
+        
       - uses: actions/upload-pages-artifact@v1
         with:
-          path: build/WebGL
+          path: build
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
