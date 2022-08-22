@@ -46,11 +46,6 @@ jobs:
         with:
           targetPlatform: WebGL    
           buildsPath: build
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build
-          path: build
-                #upload build output to access the files
       - uses: actions/upload-pages-artifact@v1
         with:
           path: build
