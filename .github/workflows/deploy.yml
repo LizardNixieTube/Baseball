@@ -42,6 +42,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
+          unityVersion: 2020.3.5f1
           
       - uses: actions/upload-artifact@v2
         with:
