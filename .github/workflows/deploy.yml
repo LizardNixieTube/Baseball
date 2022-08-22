@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pages: write # to deploy to Pages
+      contents: write
       id-token: write # to verify the deployment orginate from an appropriate source
       deployments: write
     environment:
